@@ -98,67 +98,44 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
         setSize(656,250);
 
         tabModeobat=new DefaultTableModel(null,new Object[]{
-                "K","Jumlah","Kode Barang","Nama Barang","Signa 1","Signa 2","Jumlah Hari"
+                "Jumlah","Kode Barang","Nama Barang","Signa 1","Signa 2","Jumlah Hari"
             }){
-            @Override public boolean isCellEditable(int rowIndex, int colIndex){
+            @Override 
+            public boolean isCellEditable(int rowIndex, int colIndex){
                 boolean a = false;
-                if ((colIndex==0) || (colIndex==4) || (colIndex==5) || (colIndex==6)) {
+                if ((colIndex==3)||(colIndex==4)||(colIndex==5)) {
                     a=true;
                 }
                 return a;
-             }
+            }
             
-             Class[] types = new Class[] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, 
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-             };
+            Class[] types = new Class[] {
+                java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,
+                java.lang.Object.class,java.lang.Object.class
+            };
              
-             @Override
-             public Class getColumnClass(int columnIndex) {
+            @Override
+            public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-             }
+            }
         };
         
         tbObat.setModel(tabModeobat);
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        for (i = 0; i < 7; i++) {
+        for (i = 0; i < 6; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if(i==0){
-                try {
-                    ps2=koneksi.prepareStatement("select kode_ppk from setting");
-
-                    try {
-                        rs2=ps2.executeQuery();
-                        rs2.next();
-
-                        if(rs2.getString("kode_ppk").equals("0090R034")){
-                            column.setPreferredWidth(20);
-                        }else {
-                            column.setMinWidth(0);
-                            column.setMaxWidth(0);
-                        }
-
-                    } catch (Exception e) {
-                        System.out.println("Notif : "+rs2);
-                    } finally{
-                        rs2.close();  
-                    }
-
-                } catch (Exception e) {
-                    System.out.println("Notif : "+rs2);
-                }
-            }else if(i==1){
                 column.setPreferredWidth(45);
-            }else if(i==2){
+            }else if(i==1){
                 column.setPreferredWidth(75);
-            }else if(i==3){
+            }else if(i==2){
                 column.setPreferredWidth(200);
+            }else if(i==3){
+                column.setPreferredWidth(50);
             }else if(i==4){
                 column.setPreferredWidth(50);
             }else if(i==5){
-                column.setPreferredWidth(50);
-            }else if(i==6){
                 column.setPreferredWidth(100);
             }            
         }
@@ -170,11 +147,7 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
                 "Aturan Pakai","Keterangan"
             }){
              @Override public boolean isCellEditable(int rowIndex, int colIndex){
-                boolean a = true;
-//                if ((colIndex==0)||(colIndex==2)||(colIndex==3)) {
-//                    a=false;
-//                }
-                return a;
+                return true;
              }
              Class[] types = new Class[] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, 
@@ -260,7 +233,6 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
         warna3.kolom=9;
         tbDetailObatRacikan.setDefaultRenderer(Object.class,warna3);
         
-               
         aturanpakai.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
@@ -390,6 +362,7 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
         TNoRM = new widget.TextBox();
         Tanggal = new widget.TextBox();
         KdPj = new widget.TextBox();
+        kdgudang = new widget.TextBox();
         internalFrame1 = new widget.InternalFrame();
         panelisi3 = new widget.panelisi();
         jLabel5 = new widget.Label();
@@ -430,6 +403,9 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
         jLabel3 = new widget.Label();
         TglSEP = new widget.TextBox();
         jLabel19 = new widget.Label();
+        LabelDepo = new widget.Label();
+        nmgudang = new widget.TextBox();
+        BtnGudang = new widget.Button();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -455,6 +431,15 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
 
         KdPj.setHighlighter(null);
         KdPj.setName("KdPj"); // NOI18N
+
+        kdgudang.setEditable(false);
+        kdgudang.setName("kdgudang"); // NOI18N
+        kdgudang.setPreferredSize(new java.awt.Dimension(80, 23));
+        kdgudang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                kdgudangKeyPressed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -775,6 +760,31 @@ public final class ApotekBPJSInputResepObat extends javax.swing.JDialog {
         jLabel19.setName("jLabel19"); // NOI18N
         FormInput.add(jLabel19);
         jLabel19.setBounds(241, 40, 80, 23);
+
+        LabelDepo.setText("Depo :");
+        LabelDepo.setName("LabelDepo"); // NOI18N
+        LabelDepo.setPreferredSize(new java.awt.Dimension(70, 23));
+        FormInput.add(LabelDepo);
+        LabelDepo.setBounds(520, 130, 42, 23);
+
+        nmgudang.setEditable(false);
+        nmgudang.setName("nmgudang"); // NOI18N
+        nmgudang.setPreferredSize(new java.awt.Dimension(207, 23));
+        FormInput.add(nmgudang);
+        nmgudang.setBounds(566, 130, 118, 23);
+
+        BtnGudang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        BtnGudang.setMnemonic('2');
+        BtnGudang.setToolTipText("Alt+2");
+        BtnGudang.setName("BtnGudang"); // NOI18N
+        BtnGudang.setPreferredSize(new java.awt.Dimension(28, 23));
+        BtnGudang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGudangActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnGudang);
+        BtnGudang.setBounds(686, 130, 28, 23);
 
         internalFrame1.add(FormInput, java.awt.BorderLayout.PAGE_START);
 
@@ -1351,6 +1361,49 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         // TODO add your handling code here:
     }//GEN-LAST:event_ChkJlnActionPerformed
 
+    private void kdgudangKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kdgudangKeyPressed
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_ENTER:
+            BtnSimpan.requestFocus();
+            break;
+            case KeyEvent.VK_UP:
+            BtnGudangActionPerformed(null);
+            break;
+        }
+    }//GEN-LAST:event_kdgudangKeyPressed
+
+    private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGudangActionPerformed
+        /*if (lokasidepo == null || !lokasidepo.isDisplayable()) {
+            lokasidepo=new DlgCariBangsal(null,false);
+            lokasidepo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            lokasidepo.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(lokasidepo.getTable().getSelectedRow()!= -1){
+                        kdgudang.setText(lokasidepo.getTable().getValueAt(lokasidepo.getTable().getSelectedRow(),0).toString());
+                        nmgudang.setText(lokasidepo.getTable().getValueAt(lokasidepo.getTable().getSelectedRow(),1).toString());
+                    }
+                    kdgudang.requestFocus();
+                    lokasidepo=null;
+                }
+            });
+
+            lokasidepo.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            lokasidepo.setLocationRelativeTo(internalFrame1);
+        }
+        if (lokasidepo == null) return;
+        if (!lokasidepo.isVisible()) {
+            lokasidepo.isCek();
+            lokasidepo.emptTeks();
+        }
+
+        if (lokasidepo.isVisible()) {
+            lokasidepo.toFront();
+            return;
+        }
+        lokasidepo.setVisible(true);*/
+    }//GEN-LAST:event_BtnGudangActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1368,6 +1421,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private widget.Button BtnGudang;
     private widget.Button BtnHapus;
     private widget.Button BtnKeluar;
     private widget.Button BtnSimpan;
@@ -1383,6 +1437,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.TextBox KdPoli;
     private widget.Label LTotal;
     private widget.Label LTotalTagihan;
+    private widget.Label LabelDepo;
     private widget.TextBox NmDPJP;
     private widget.TextBox NmPoli;
     private widget.TextBox NoKartu;
@@ -1416,6 +1471,8 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.Label jLabel7;
     private widget.Label jLabel8;
     private javax.swing.JPanel jPanel3;
+    private widget.TextBox kdgudang;
+    private widget.TextBox nmgudang;
     private widget.panelisi panelisi3;
     private widget.Table tbDetailObatRacikan;
     private widget.Table tbObat;
