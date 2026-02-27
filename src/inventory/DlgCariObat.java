@@ -2884,9 +2884,9 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                 }
             } 
             
-            for(i=0;i<tbObat.getRowCount();i++){
+            /*for(i=0;i<tbObat.getRowCount();i++){
                 getDataobat(i);
-            }
+            }*/
             
             psobat=koneksi.prepareStatement(
                     "select resep_dokter_racikan.no_racik,resep_dokter_racikan.nama_racik,"+
@@ -3263,9 +3263,9 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                     psobat.close();
                 }
             }
-            for(i=0;i<tbDetailObatRacikan.getRowCount();i++){
+            /*for(i=0;i<tbDetailObatRacikan.getRowCount();i++){
                 getDatadetailobatracikan(i);
-            }
+            }*/
             hitungObat();
         } catch (Exception e) {
             System.out.println("Notifikasi : "+e);
